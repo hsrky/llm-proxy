@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-podman build -t llm-proxy .
+podman build -v /dev/urandom:/dev/urandom -v /dev/random:/dev/random -t llm-proxy .
