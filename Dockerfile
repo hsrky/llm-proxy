@@ -21,3 +21,5 @@ EXPOSE 8443
 # Run FastAPI app with uvicorn
 CMD ["uv", "run", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8443", \
     "--ssl-keyfile=key.pem", "--ssl-certfile=cert.pem"]
+
+
