@@ -1,8 +1,8 @@
+import asyncio
+import os
 from fastapi import FastAPI, Request, APIRouter
 from fastapi.responses import StreamingResponse
 import httpx
-import asyncio
-import os
 
 XAI_API_URL = "https://api.x.ai/v1"
 TIMEOUT = 120.0
@@ -13,7 +13,7 @@ client = httpx.AsyncClient(timeout=httpx.Timeout(30, read=TIMEOUT))
 
 
 @app.get("/sse")
-async def stream(request: Request):
+async def stream():
     # This is a simple example of a server-sent events (SSE) endpoint.
     async def event_generator():
         while True:

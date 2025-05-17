@@ -2,10 +2,9 @@
 disable=
     missing-docstring,
     empty-docstring,
-    docstring-first-line-empty,
-    docstring-missing-parameter,
-    docstring-missing-return,
-    docstring-missing-rtype,
-    undocumented-module,
-    undocumented-class,
-    undocumented-function
+
+[TYPECHECK]
+ignored-modules=
+    fastapi,
+    fastapi.responses,
+    httpx,
