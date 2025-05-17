@@ -4,7 +4,6 @@ import httpx
 import asyncio
 import os
 
-XAI_API_KEY = os.environ["XAI_API_KEY"]
 XAI_API_URL = "https://api.x.ai/v1"
 TIMEOUT = 120.0
 
@@ -27,7 +26,6 @@ async def stream(request: Request):
 async def forward_request(path: str, request: Request):
     """Generic request forwarding with streaming support."""
     url = f"{XAI_API_URL}/{path.lstrip('/')}"
-
     # Prepare headers (filter out FastAPI-specific headers)
     forward_headers = {
         k: v
@@ -58,18 +56,14 @@ async def completions(request: Request):
     return await forward_request("/completions", request)
 
 
-@xai.post("/embeddings")
-async def embeddings(request: Request):
-    return await forward_request("/embeddings", request)
-
-
 @xai.get("/models")
 async def models(request: Request):
     """
     Get the list of models from the XAPI API.
     """
     response = await client.get(
-        XAI_API_URL + "/models", headers={"Authorization": f"Bearer {XAI_API_KEY}"}
+        XAI_API_URL + "/models",
+        headers={k: v for k, v in request.headers.items() if k.lower() != "host"},
     )
 
     # Return the response from the XAPI API
@@ -83,7 +77,8 @@ async def model(request: Request, model_id: str):
     """
     response = await client.get(
         XAI_API_URL + f"/models/{model_id}",
-        headers={"Authorization": f"Bearer {XAI_API_KEY}"},
+        # headers={"Authorization": f"Bearer {bearer}"},
+        headers={k: v for k, v in request.headers.items() if k.lower() != "host"},
     )
 
     # Return the response from the XAPI API
